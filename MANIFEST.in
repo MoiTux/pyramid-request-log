@@ -1,0 +1,5 @@
+include README.md
+include CHANGES.rst
+include LICENSE
+recursive-include *.py
+recursive-exclude * *.py[co]
