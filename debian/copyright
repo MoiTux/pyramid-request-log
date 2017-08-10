@@ -1,0 +1,7 @@
+Files: *
+Copyright: 2017 MoiTux
+License: MIT
+
+Files: debian/*
+Copyright: © 2017 Gandi S.A.S.
+License: Proprietary

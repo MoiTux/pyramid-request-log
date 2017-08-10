@@ -1,0 +1,17 @@
+Source: pyramid-request-log
+Priority: optional
+Section: python
+Maintainer: Gandi <feedback@gandi.net>
+Build-Depends: debhelper (>= 8),
+ python (>= 2.7), dh-python
+Build-Depends-Indep: python-setuptools
+Standards-Version: 3.9.3
+X-Python-Version: >= 2.7
+
+Package: python-pyramid-request-log
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}
+Description: A Pyramid Plugin For loggin request
+ A pyramid plugin that will log all Request and Response.
+ If a json body is available it will also be logged,
+ a list of forbidden key can be used to not logged sensitive information.

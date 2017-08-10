@@ -1,0 +1,5 @@
+pyramid-request-log (0.2) unstable; urgency=low
+
+  * Initial release.
+
+ -- Sylvain Leurent <moitux@gandi.net>  Thu, 10 Aug 2017 11:12:35 +0200
