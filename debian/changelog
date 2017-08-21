@@ -1,3 +1,9 @@
+pyramid-request-log (0.3) unstable; urgency=medium
+
+  * New release
+
+ -- Sylvain Leurent <moitux@gandi.net>  Mon, 21 Aug 2017 16:41:39 +0200
+
 pyramid-request-log (0.2) unstable; urgency=low
 
   * Gandi import
