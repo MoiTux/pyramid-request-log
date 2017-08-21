@@ -53,3 +53,40 @@ class TestClean(TestCase):
         ]
         request_log.clean(data)
         self.assertEqual(data, excepted)
+
+    def test_dict(self):
+        request_log.unlog_pattern = re.compile('password')
+        data = {
+            'authentication': {
+                'password': 'Apa$$w0rd',
+                'other': 'keep',
+            },
+            'keep': 'ok',
+            'ok': [
+                {
+                    'too': 'keep',
+                },
+                {
+                    'password': 'to-remove',
+                },
+            ],
+            'bool': True,
+        }
+        excepted = {
+            'authentication': {
+                'password': '******',
+                'other': 'keep',
+            },
+            'keep': 'ok',
+            'ok': [
+                {
+                    'too': 'keep',
+                },
+                {
+                    'password': '******',
+                },
+            ],
+            'bool': True,
+        }
+        request_log.clean(data)
+        self.assertEqual(data, excepted)

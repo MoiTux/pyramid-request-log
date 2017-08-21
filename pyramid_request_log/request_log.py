@@ -63,8 +63,9 @@ def log_response(event):
 
 def clean(body):
     for key in body:
-        if isinstance(key, basestring):
-            if unlog_pattern and unlog_pattern.match(key):
-                body[key] = '*'*6
-        else:
+        if not isinstance(key, basestring):
             clean(key)
+        elif isinstance(body[key], (dict, list)):
+            clean(body[key])
+        elif unlog_pattern and unlog_pattern.match(key):
+            body[key] = '*'*6
