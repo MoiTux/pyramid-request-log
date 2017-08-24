@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 from unittest import TestCase
-import re
 
 from pyramid.config import Configurator
 from testfixtures import log_capture
