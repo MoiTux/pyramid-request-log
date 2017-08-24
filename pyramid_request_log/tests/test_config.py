@@ -68,7 +68,7 @@ class TestConfig(TestCase):
     def test_conf_empty(self, log):
         conf = Configurator()
         conf.registry.settings.update({
-            'pyramid_request_log.pattern':'',
+            'pyramid_request_log.pattern': '',
             'pyramid_request_log.authenticated_id': 'me',
         })
         config.includeme(conf)
