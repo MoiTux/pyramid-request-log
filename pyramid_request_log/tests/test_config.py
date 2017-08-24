@@ -63,3 +63,22 @@ class TestConfig(TestCase):
         )
         self.assertEqual(request_log.unlog_pattern.pattern, '(password)|(pwd)')
         self.assertEqual(request_log.authenticated_id, 'me')
+
+    @log_capture()
+    def test_conf_empty(self, log):
+        conf = Configurator()
+        conf.registry.settings.update({
+            'pyramid_request_log.pattern':'',
+            'pyramid_request_log.authenticated_id': 'me',
+        })
+        config.includeme(conf)
+        log.check(
+            (
+                'pyramid_request_log.config',
+                'INFO',
+                ('Pyramid-Request-Log will ignore no key: '
+                 'variable define but empty')
+            ),
+        )
+        self.assertIsNone(request_log.unlog_pattern)
+        self.assertEqual(request_log.authenticated_id, 'me')
