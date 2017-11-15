@@ -1,8 +1,12 @@
 import logging
+import sys
 
 from pyramid.events import NewResponse, NewRequest
 from pyramid.events import subscriber
 
+
+if sys.version_info[0] < 3:
+    str = basestring
 
 log = logging.getLogger(__name__)
 
@@ -63,7 +67,7 @@ def log_response(event):
 
 def clean(body):
     for key in body:
-        if not isinstance(key, basestring):
+        if not isinstance(key, str):
             clean(key)
         elif isinstance(body[key], (dict, list)):
             clean(body[key])

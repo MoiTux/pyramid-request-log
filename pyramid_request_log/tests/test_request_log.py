@@ -1,6 +1,5 @@
-from __future__ import absolute_import
-
 import re
+import sys
 from unittest import TestCase
 from testfixtures import log_capture
 
@@ -37,18 +36,22 @@ class TestRequestLog(TestCase):
         res = self.app.post_json('/', params=data,
                                  headers={'content-type': 'application/json'})
         self.assertEqual(res.json, data)
+        if sys.version_info[0] < 3:
+            logged_body = "{u'some': u'data'}"
+        else:
+            logged_body = "{'some': 'data'}"
         log.check(
             (
                 'pyramid_request_log.request_log',
                 'INFO',
-                "New request: POST / (body: {u'some': u'data'}) "
-                '(username: UnAuthenticatedUser)',
+                "New request: POST / (body: {}) "
+                '(username: UnAuthenticatedUser)'.format(logged_body),
             ),
             (
                 'pyramid_request_log.request_log',
                 'INFO',
-                'Response for request: POST /: HTTPCode: 200 OK, '
-                "(body: {u'some': u'data'}) (username: UnAuthenticatedUser)",
+                'Response for request: POST /: HTTPCode: 200 OK, (body: {}) '
+                "(username: UnAuthenticatedUser)".format(logged_body),
             ),
         )
 
@@ -75,7 +78,7 @@ class TestRequestLog(TestCase):
         res = self.app.post('/', params=data,
                             headers={'X-Authenticated-User': '',
                                      'content-type': 'application/json'})
-        self.assertEqual(res.body, data)
+        self.assertEqual(res.text, data)
         log.check(
             (
                 'pyramid_request_log.request_log',
@@ -99,18 +102,22 @@ class TestRequestLog(TestCase):
                                  headers={'X-Authenticated-User': '',
                                           'content-type': 'application/json'})
         self.assertEqual(res.json, data)
+        if sys.version_info[0] < 3:
+            logged_body = "{u'some': '******'}"
+        else:
+            logged_body = "{'some': '******'}"
         log.check(
             (
                 'pyramid_request_log.request_log',
                 'INFO',
-                "New request: POST / (body: {u'some': '******'}) "
-                '(username: MoiTux)',
+                "New request: POST / (body: {}) "
+                "(username: MoiTux)".format(logged_body),
             ),
             (
                 'pyramid_request_log.request_log',
                 'INFO',
                 'Response for request: POST /: HTTPCode: 200 OK, '
-                "(body: {u'some': '******'}) (username: MoiTux)",
+                "(body: {}) (username: MoiTux)".format(logged_body),
             ),
         )
         request_log.unlog_pattern = None
