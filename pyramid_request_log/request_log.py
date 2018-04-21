@@ -11,12 +11,16 @@ if sys.version_info[0] < 3:
 log = logging.getLogger(__name__)
 
 unlog_pattern = None
+unlog_route = None
 authenticated_id = ''
 
 
 @subscriber(NewRequest)
 def log_request(event):
     request = event.request
+
+    if ignore_route(request.path):
+        return
 
     user = 'UnAuthenticatedUser'
     if request.authenticated_userid:
@@ -41,6 +45,9 @@ def log_request(event):
 def log_response(event):
     request = event.request
     response = event.response
+
+    if ignore_route(request.path):
+        return
 
     user = 'UnAuthenticatedUser'
     if request.authenticated_userid:
@@ -73,3 +80,9 @@ def clean(body):
             clean(body[key])
         elif unlog_pattern and unlog_pattern.match(key):
             body[key] = '*'*6
+
+
+def ignore_route(route):
+    if unlog_route and unlog_route.match(route):
+        return True
+    return False

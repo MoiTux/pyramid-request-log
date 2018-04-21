@@ -16,6 +16,7 @@ class TestRequestLog(TestCase):
     @classmethod
     def tearDown(self):
         request_log.unlog_pattern = None
+        request_log.unlog_route = None
 
     @log_capture()
     def test_unauthenticated_no_json(self, log):
@@ -124,3 +125,13 @@ class TestRequestLog(TestCase):
                 "(body: {}) (username: MoiTux)".format(logged_body),
             ),
         )
+
+    @log_capture()
+    def test_ignore_route(self, log):
+        request_log.unlog_route = re.compile('/')
+        data = {'some': 'data'}
+        res = self.app.post_json('/', params=data,
+                                 headers={'X-Authenticated-User': '',
+                                          'content-type': 'application/json'})
+        self.assertEqual(res.json, data)
+        log.check()

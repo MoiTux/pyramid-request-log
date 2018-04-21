@@ -21,12 +21,24 @@ def includeme(config):
             log.info('Pyramid-Request-Log will ignore no key: '
                      'variable define but empty')
         else:
-            log.info('Pyramid-Request-Log will ignore: %s', unlog_pattern)
+            log.info('Pyramid-Request-Log will ignore keys: %s', unlog_pattern)
 
             re_compile = re.compile('({})'.format(')|('.join(unlog_pattern)))
             request_log.unlog_pattern = re_compile
     else:
         log.warning('No pyramid_request_log.pattern found in settings')
+
+    if 'pyramid_request_log.ignore_route' in settings:
+        unlog_route = aslist(settings['pyramid_request_log.ignore_route'])
+        if not unlog_route:
+            log.info('Pyramid-Request-Log will ignore no route: '
+                     'variable define but empty')
+        else:
+            log.info('Pyramid-Request-Log will ignore routes: %s',
+                     unlog_route)
+
+            re_compile = re.compile('({})'.format(')|('.join(unlog_route)))
+            request_log.unlog_route = re_compile
 
     key = 'pyramid_request_log.authenticated_id'
     if key in settings:

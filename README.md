@@ -13,6 +13,9 @@ it will be replace with '******'
 authentication mechanism, you can set the property you want to help
 'identity' who did the request
 
+`pyramid_request_log.ignore_route` a list of pattern, route matching
+those pattern won't be logged.
+
 ## Example
 
 ```
