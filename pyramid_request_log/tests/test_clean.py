@@ -90,3 +90,24 @@ class TestClean(TestCase):
         }
         request_log.clean(data)
         self.assertEqual(data, excepted)
+
+    def test_mixed_list(self):
+        request_log.unlog_pattern = re.compile('password')
+        data = [
+            1,
+            2,
+            3,
+            {
+                'password': 'to-remove',
+            },
+        ]
+        excepted = [
+            1,
+            2,
+            3,
+            {
+                'password': '******',
+            },
+        ]
+        request_log.clean(data)
+        self.assertEqual(data, excepted)
