@@ -111,3 +111,30 @@ class TestClean(TestCase):
         ]
         request_log.clean(data)
         self.assertEqual(data, excepted)
+
+    def test_pattern_in_value(self):
+        request_log.unlog_pattern = re.compile('password')
+        data = {
+            'authentication': {
+                'other': 'password',
+            },
+            'ok': [
+                {
+                    'too': 'password',
+                },
+                'password',
+            ],
+        }
+        excepted = {
+            'authentication': {
+                'other': 'password',
+            },
+            'ok': [
+                {
+                    'too': 'password',
+                },
+                'password',
+            ],
+        }
+        request_log.clean(data)
+        self.assertEqual(data, excepted)

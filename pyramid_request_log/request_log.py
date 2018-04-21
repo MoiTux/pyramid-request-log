@@ -76,11 +76,11 @@ def clean(body):
     for key in body:
         if isinstance(key, (dict, list)):
             clean(key)
-        elif isinstance(body, dict) and isinstance(body[key], (dict, list)):
-            clean(body[key])
-        elif (unlog_pattern and isinstance(key, str) and
-              unlog_pattern.match(key)):
-            body[key] = '*'*6
+        elif isinstance(body, dict):
+            if isinstance(body[key], (dict, list)):
+                clean(body[key])
+            elif unlog_pattern and unlog_pattern.match(key):
+                body[key] = '*'*6
 
 
 def ignore_route(route):
