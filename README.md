@@ -6,8 +6,9 @@ forbidden key can be used to not logged sensitive information.
 
 ## Configuration
 
-`pyramid_request_log.request_log` a list a key pattern to to log,
-it will be replace with '******'
+`pyramid_request_log.request_log` a list of pattern, any key in
+the body matching those pattern will be replace with '******'
+instead of the real value.
 
 `pyramid_request_log.authenticated_id` if you have create your own
 authentication mechanism, you can set the property you want to help
