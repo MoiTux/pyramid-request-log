@@ -13,6 +13,10 @@ class TestRequestLog(TestCase):
     def setUpClass(cls):
         cls.app = get_app()
 
+    @classmethod
+    def tearDown(self):
+        request_log.unlog_pattern = None
+
     @log_capture()
     def test_unauthenticated_no_json(self, log):
         self.app.get('/')
@@ -120,4 +124,3 @@ class TestRequestLog(TestCase):
                 "(body: {}) (username: MoiTux)".format(logged_body),
             ),
         )
-        request_log.unlog_pattern = None
