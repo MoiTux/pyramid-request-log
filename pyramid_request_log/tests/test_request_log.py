@@ -14,7 +14,7 @@ class TestRequestLog(TestCase):
         cls.app = get_app()
 
     @classmethod
-    def tearDown(self):
+    def tearDown(cls):
         request_log.unlog_pattern = None
         request_log.unlog_route = None
 
