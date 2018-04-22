@@ -24,7 +24,6 @@ requires = [
 extras_require = {
     'test': [
         'nose',
-        'pycodestyle',
         'coverage',
         'webtest',
         'pycodestyle',
