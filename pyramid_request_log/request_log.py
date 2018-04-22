@@ -1,5 +1,6 @@
 import logging
 import sys
+import time
 
 from pyramid.events import NewResponse, NewRequest
 from pyramid.events import subscriber
@@ -21,6 +22,8 @@ def log_request(event):
 
     if ignore_route(request.path):
         return
+
+    request.pyramid_request_log_start = time.time()
 
     user = 'UnAuthenticatedUser'
     if request.authenticated_userid:
@@ -49,6 +52,8 @@ def log_response(event):
     if ignore_route(request.path):
         return
 
+    duration = '{:.3f}'.format(time.time() - request.pyramid_request_log_start)
+
     user = 'UnAuthenticatedUser'
     if request.authenticated_userid:
         user = getattr(request.authenticated_userid,
@@ -62,14 +67,16 @@ def log_response(event):
             body = 'Json error'
 
         log.info(
-            'Response for request: %s %s: HTTPCode: %s, (body: %s) (%s: %s)',
+            'Response for request: %s %s: HTTPCode: %s, (body: %s) '
+            '(%s: %s) (endded in %ss)',
             request.method, request.path_qs, response.status, body,
-            authenticated_id, user,
+            authenticated_id, user, duration,
         )
     else:
-        log.info('Response for request: %s %s: HTTPCode: %s, (%s: %s)',
+        log.info('Response for request: %s %s: HTTPCode: %s, (%s: %s) '
+                 '(endded in %ss)',
                  request.method, request.path_qs, response.status,
-                 authenticated_id, user)
+                 authenticated_id, user, duration)
 
 
 def clean(body):

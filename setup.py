@@ -28,6 +28,7 @@ extras_require = {
         'webtest',
         'pycodestyle',
         'testfixtures',
+        'mock',
     ],
 }
 
