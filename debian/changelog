@@ -1,3 +1,9 @@
+pyramid-request-log (0.6) unstable; urgency=medium
+
+  * New release
+
+ -- Sylvain Leurent <moitux@gandi.net>  Sun, 22 Apr 2018 13:38:25 +0200
+
 pyramid-request-log (0.5) unstable; urgency=medium
 
   * New release
